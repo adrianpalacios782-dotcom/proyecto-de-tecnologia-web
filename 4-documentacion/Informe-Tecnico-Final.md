@@ -351,32 +351,32 @@ Importar el esquema canónico en MySQL:
 Get-Content -Raw .\www\alquiler\tabla.sql | docker compose exec -T db mysql -uroot -proot123 fogon
 ```
 
-Certificar conexión PDO desde PHP:
+Certificar conexión PDO desde PHP (compatible con CMD y PowerShell):
 
 ```powershell
-docker compose exec -T web php -r "require '/var/www/html/alquiler/conexion.php'; echo `$pdo->query('SELECT 1')->fetchColumn();"
+docker compose exec -T web php -r "require '/var/www/html/alquiler/conexion.php'; echo 'PDO_OK';"
 ```
 
 Inspeccionar la tabla:
 
 ```powershell
-docker compose exec -T db mysql -uroot -proot123 -e "SHOW COLUMNS FROM fogon.contactos;" fogon
+docker compose exec -T db mysql -ufogon -pfogon123 -e "SHOW COLUMNS FROM contactos;" fogon
 ```
 
 Entrar a los contenedores de Docker desde CMD o PowerShell (modo interactivo):
 
 ```powershell
-# Entrar a la terminal (bash) del contenedor web (Apache + PHP)
+# Entrar a la terminal (bash) del contenedor web (Apache + PHP) — salir con: exit
 docker compose exec web bash
 
-# Entrar a la consola interactiva de MySQL (base de datos fogon)
+# Entrar a la consola interactiva de MySQL (base de datos fogon) — salir con: exit;
 docker compose exec db mysql -ufogon -pfogon123 fogon
 ```
 
 Consultar las reservas guardadas directamente desde CMD o PowerShell:
 
 ```powershell
-docker compose exec db mysql -ufogon -pfogon123 -e "SELECT * FROM contactos;" fogon
+docker compose exec -T db mysql -ufogon -pfogon123 -e "SELECT * FROM contactos;" fogon
 ```
 
 URLs de acceso:
