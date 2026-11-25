@@ -1,0 +1,130 @@
+% =====================================================================
+%  estilo-jpcruz.sty — Formato JPCruzOvando (LuaLaTeX)
+%  Operación DNS · Tecnología Web I · UPDS Tarija
+% =====================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{estilo-jpcruz}[2026/11/17 Formato JPCruzOvando]
+
+\RequirePackage{fontspec}
+\RequirePackage{polyglossia}
+\setdefaultlanguage{spanish}
+\RequirePackage[a4paper,top=2.6cm,bottom=2.4cm,left=2.2cm,right=2.2cm,headheight=1.2cm]{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{listings}
+\RequirePackage{enumitem}
+\RequirePackage{tabularx,booktabs,array,longtable,multirow}
+\RequirePackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,calc,shapes.geometric}
+\RequirePackage{titlesec}
+\RequirePackage{amssymb}
+\RequirePackage{needspace}
+\RequirePackage[hidelinks]{hyperref}
+
+% ---------- Fuentes ----------
+\setmainfont{TeX Gyre Pagella}
+\IfFontExistsTF{Noto Sans}{\setsansfont{Noto Sans}}{\setsansfont{TeX Gyre Heros}}
+\setmonofont{DejaVu Sans Mono}[Scale=0.85]
+
+% ---------- Colores ----------
+\definecolor{azuljp}{HTML}{0B3C5D}
+\definecolor{cianjp}{HTML}{0096C7}
+\definecolor{verdejp}{HTML}{1B9E5A}
+\definecolor{rojojp}{HTML}{D62839}
+\definecolor{orojp}{HTML}{E0A100}
+\definecolor{grisjp}{HTML}{5C6B73}
+\definecolor{fondojp}{HTML}{F3F8FB}
+\definecolor{term}{HTML}{0D1B24}
+\definecolor{termtx}{HTML}{DCF3FB}
+
+% ---------- Títulos ----------
+\titleformat{\section}{\sffamily\Large\bfseries\color{azuljp}}{\thesection}{0.6em}{}[{\color{cianjp}\titlerule[1pt]}]
+\titleformat{\subsection}{\sffamily\large\bfseries\color{cianjp}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.8em}
+
+% ---------- Encabezado y pie ----------
+\newcommand{\documento}[1]{\def\@documento{#1}}
+\documento{Operación DNS}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0.8pt}
+\renewcommand{\headrule}{{\color{cianjp}\hrule width\headwidth height\headrulewidth}}
+\fancyhead[L]{\IfFileExists{imagenes/danko.png}{\raisebox{-0.25\height}{\includegraphics[height=0.95cm]}{imagenes/danko.png}\hspace{2mm}}{}%
+  \sffamily\small\color{azuljp}\textbf{\@documento}}
+\fancyhead[R]{\sffamily\footnotesize\color{grisjp}Tecnología Web I · UPDS Tarija · FORJA WEB 2026}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\footrule}{{\color{grisjp!50}\hrule width\headwidth height\footrulewidth}}
+\fancyfoot[L]{\sffamily\scriptsize\color{grisjp}M.Sc. Ing. Juan Pablo Cruz Ovando · 70213044 / 61865265 · gerencia@jpcruzovando.com · jpcruzovando.com}
+\fancyfoot[R]{\sffamily\scriptsize\color{azuljp}\thepage\,/\,\pageref{LastPage}}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}%
+  \fancyfoot[L]{\sffamily\scriptsize\color{grisjp}M.Sc. Ing. Juan Pablo Cruz Ovando · 70213044 / 61865265 · gerencia@jpcruzovando.com · jpcruzovando.com}%
+  \fancyfoot[R]{\sffamily\scriptsize\color{azuljp}\thepage\,/\,\pageref{LastPage}}}
+
+% ---------- Listados (terminal) ----------
+\lstdefinestyle{terminal}{
+  basicstyle=\ttfamily\small\color{termtx},
+  commentstyle=\color{termtx!55}\itshape,
+  stringstyle=\color{orojp!80!yellow},
+  keywordstyle=\color{termtx},
+  backgroundcolor=\color{term},
+  breaklines=true, columns=fullflexible, keepspaces=true,
+  showstringspaces=false, upquote=true, aboveskip=0pt, belowskip=0pt,
+  extendedchars=true, inputencoding=utf8,
+  literate={á}{{á}}1 {é}{{é}}1 {í}{{í}}1 {ó}{{ó}}1 {ú}{{ú}}1 {ñ}{{ñ}}1
+           {Á}{{Á}}1 {É}{{É}}1 {Í}{{Í}}1 {Ó}{{Ó}}1 {Ú}{{Ú}}1 {¿}{{¿}}1 {¡}{{¡}}1
+}
+\lstset{style=terminal}
+
+% Caja de terminal:  \begin{terminal}[PowerShell]{título} ... \end{terminal}
+\DeclareTColorBox{marco}{O{cianjp} m}{enhanced, breakable, colback=fondojp, colframe=#1,
+  arc=3mm, boxrule=0.8pt, left=3mm, right=3mm, top=2mm, bottom=2mm,
+  drop fuzzy shadow=black!35, title={\sffamily\bfseries #2}, colbacktitle=#1, coltitle=white,
+  fonttitle=\small}
+\newtcblisting{terminal}[2][PowerShell]{enhanced, breakable, listing only, colback=term, colframe=term,
+  arc=2.5mm, boxrule=0pt, left=3mm, right=3mm, top=1.5mm, bottom=1.5mm,
+  drop fuzzy shadow=black!40,
+  title={\sffamily\footnotesize\bfseries\color{white}\raisebox{0.5pt}{\tikz{\fill[rojojp](0,0)circle(2.2pt);\fill[orojp](0.22,0)circle(2.2pt);\fill[verdejp](0.44,0)circle(2.2pt);}}\hspace{2mm}#1\hfill\mdseries #2},
+  colbacktitle=term!80!white, coltitle=white, toptitle=1mm, bottomtitle=1mm,
+  listing options={style=terminal}}
+
+\newtcolorbox{ojo}[1][Atención]{enhanced, breakable, colback=rojojp!6, colframe=rojojp,
+  arc=3mm, boxrule=0.6pt, borderline west={4pt}{0pt}{rojojp}, left=3mm,
+  fonttitle=\sffamily\bfseries\small, coltitle=rojojp, colbacktitle=rojojp!6, title={#1},
+  attach title to upper={\ }}
+\newtcolorbox{tip}[1][Tip]{enhanced, breakable, colback=verdejp!7, colframe=verdejp,
+  arc=3mm, boxrule=0.6pt, borderline west={4pt}{0pt}{verdejp}, left=3mm,
+  fonttitle=\sffamily\bfseries\small, coltitle=verdejp, colbacktitle=verdejp!7, title={#1},
+  attach title to upper={\ }}
+\newtcolorbox{checkpoint}{enhanced, breakable, colback=orojp!8, colframe=orojp,
+  arc=3mm, boxrule=0.8pt, drop fuzzy shadow=black!25,
+  title={\sffamily\bfseries CHECKPOINT · capturá esto para el informe}, colbacktitle=orojp, coltitle=black, fonttitle=\small}
+\newtcolorbox{pregunta}[1][Preguntas]{enhanced, breakable, colback=white, colframe=azuljp,
+  arc=3mm, boxrule=0.8pt, drop fuzzy shadow=black!25,
+  title={\sffamily\bfseries #1}, colbacktitle=azuljp, coltitle=white, fonttitle=\small}
+
+% Banner de misión: \misionbanner{numero}{titulo}{duracion}{objetivo}
+\newcommand{\misionbanner}[4]{%
+  \par\needspace{15\baselineskip}\vspace{4mm}\noindent
+  \begin{tikzpicture}
+    \fill[rounded corners=4mm,term] (0,0) rectangle (\linewidth,2.45);
+    \foreach \r in {0.5,1.0,1.5,2.0}{\draw[cianjp!45,line width=0.4pt] (\linewidth-1.3cm,1.22) circle (\r*0.5);}
+    \fill[verdejp!80,opacity=0.35] (\linewidth-1.3cm,1.22) -- ++(15:1) arc (15:60:1) -- cycle;
+    \node[anchor=north west,text=cianjp!70!white,font=\ttfamily\small] at (0.45,2.2) {MISIÓN #1 \quad·\quad #3};
+    \node[anchor=north west,text=white,font=\sffamily\bfseries\LARGE] at (0.42,1.72) {#2};
+    \node[anchor=north west,text=termtx,font=\sffamily\small,text width=0.8\linewidth,align=left] at (0.45,1.0) {#4};
+  \end{tikzpicture}\par\vspace{2mm}}
+
+% Línea para responder
+\newcommand{\linea}[1][\linewidth]{\par\noindent\rule{0pt}{7mm}\color{grisjp!50}\rule{#1}{0.4pt}\color{black}\par}
+\newcommand{\lineas}[1]{\foreach \i in {1,...,#1}{\linea}}
+\newcommand{\casilla}{$\square$\ }
+
+\setlist[itemize]{leftmargin=1.4em,itemsep=1pt,label=\textcolor{cianjp}{\small$\blacktriangleright$}}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=2pt}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+\endinput

@@ -1,0 +1,474 @@
+% =====================================================================
+%  OPERACIÓN FOGÓN · PHP desde cero · Guía del estudiante
+%  Tecnología Web I · UPDS Tarija · FORJA WEB 2026
+%  M.Sc. Ing. Juan Pablo Cruz Ovando · jpcruzovando.com
+%  Compilar:  lualatex fogon-guia-estudiante.tex   (2 veces, por el índice)
+% =====================================================================
+\documentclass[11pt]{article}
+\usepackage{estilo-jpcruz}
+\documento{Operación Fogón · Guion docente}
+\usepackage{tocloft}
+\usepackage{multicol}
+\usetikzlibrary{decorations.pathreplacing,fit,backgrounds,calc}
+
+% ---------------- Tipografía ----------------
+\IfFontExistsTF{Fira Sans}{%
+  \setmainfont{Fira Sans Light}[BoldFont={Fira Sans SemiBold},ItalicFont={Fira Sans Light Italic},BoldItalicFont={Fira Sans SemiBold Italic}]
+  \setsansfont{Fira Sans}[BoldFont={Fira Sans SemiBold}]
+  \newfontfamily\titular{Fira Sans Black}
+  \newfontfamily\medio{Fira Sans Medium}}{%
+  \setmainfont{TeX Gyre Heros}
+  \newfontfamily\titular{TeX Gyre Heros}[UprightFont=*-Bold]
+  \newfontfamily\medio{TeX Gyre Heros}}
+\newfontfamily\simbolos{DejaVu Sans}
+\linespread{1.08}
+
+% ---------------- Paleta fuego ----------------
+\definecolor{negro}{HTML}{0B0807}
+\definecolor{fuego}{HTML}{FF7A18}
+\definecolor{brasa}{HTML}{FF3D2E}
+\definecolor{oroneon}{HTML}{FFC93C}
+\definecolor{cianneon}{HTML}{00E5FF}
+\definecolor{verdeneon}{HTML}{39FF88}
+\definecolor{lilaneon}{HTML}{B48CFF}
+\definecolor{texto}{HTML}{F6ECE4}
+\definecolor{grisneon}{HTML}{A8968A}
+\definecolor{lineaneon}{HTML}{2E2019}
+\definecolor{fuegooscuro}{HTML}{C2530A}
+
+% ---------------- Encabezado y pie ----------------
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\newcommand{\seccionactual}{GUION DOCENTE · OPERACIÓN FOGÓN}
+\fancyhead[L]{\begin{tikzpicture}[overlay]
+  \fill[negro] (-0.1,-0.25) rectangle (\headwidth+0.1,0.42);
+  \fill[fuego] (-0.1,-0.25) rectangle (0.12,0.42);
+  \node[anchor=west,text=fuego,font=\ttfamily\scriptsize] at (0.3,0.08) {// \seccionactual};
+  \node[anchor=east,text=grisneon,font=\ttfamily\scriptsize] at (\headwidth-0.15,0.08) {TECNOLOGÍA WEB I · UPDS};
+\end{tikzpicture}}
+\fancyfoot[L]{\sffamily\scriptsize\color{grisjp}M.Sc. Ing. Juan Pablo Cruz Ovando · jpcruzovando.com}
+\fancyfoot[R]{\begin{tikzpicture}[baseline=-0.6ex]\node[fill=negro,text=fuego,font=\ttfamily\bfseries\scriptsize,rounded corners=1mm,inner sep=3pt]{\thepage};\end{tikzpicture}}
+
+\setcounter{tocdepth}{2}
+\renewcommand{\cftsecfont}{\medio\color{fuegooscuro}}
+\renewcommand{\cftsecpagefont}{\ttfamily\bfseries\color{fuego}}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\setlength{\cftbeforesecskip}{0.5em}
+
+% ---------------- Código PHP (oscuro, con colores) ----------------
+\lstdefinestyle{phpclaro}{backgroundcolor=\color{negro}, basicstyle=\ttfamily\small\color{texto}, breaklines=true, columns=fullflexible, keepspaces=true,
+  showstringspaces=false, upquote=true, aboveskip=0pt, belowskip=0pt,
+  numbers=left, numberstyle=\tiny\color{grisneon}, numbersep=6pt,
+  alsoletter={\$}, keywordsprefix={\$}, morekeywords=[1]{zzzdummy}, keywordstyle=[1]{\color{cianneon}},
+  morekeywords=[2]{echo,if,else,elseif,foreach,as,endforeach,endif,require,function,return,new,try,catch,true,false,count,date,isset,exit,header},
+  keywordstyle={[2]\color{fuego}\bfseries},
+  morestring=[b]', morestring=[b]", stringstyle=\color{oroneon},
+  morecomment=[l]{//}, commentstyle=\color{grisneon}\itshape,
+  literate={á}{{á}}1 {é}{{é}}1 {í}{{í}}1 {ó}{{ó}}1 {ú}{{ú}}1 {ñ}{{ñ}}1 {Á}{{Á}}1 {É}{{É}}1 {Ó}{{Ó}}1 {¿}{{¿}}1 {¡}{{¡}}1 {«}{{«}}1 {»}{{»}}1}
+\newtcblisting{php}[1]{enhanced, breakable, listing only, colback=negro, colframe=negro, arc=2.5mm, boxrule=0pt,
+  left=6mm, right=3mm, top=1.5mm, bottom=1.5mm, drop fuzzy shadow=black!40,
+  title={\sffamily\footnotesize\bfseries\color{white}\raisebox{0.5pt}{\tikz{\fill[brasa](0,0)circle(2.2pt);\fill[oroneon](0.22,0)circle(2.2pt);\fill[verdeneon](0.44,0)circle(2.2pt);}}\hspace{2mm}\mdseries\ttfamily #1},
+  colbacktitle=negro!85!fuego, coltitle=white, toptitle=1mm, bottomtitle=1mm,
+  listing options={style=phpclaro}}
+\newtcblisting{salida}[1][lo que ves en el navegador]{enhanced, breakable, listing only, colback=white, colframe=verdejp, arc=2.5mm, boxrule=0.8pt,
+  left=3mm, right=3mm, top=1mm, bottom=1mm, title={\sffamily\footnotesize\bfseries #1}, colbacktitle=verdejp, coltitle=white,
+  listing options={backgroundcolor=\color{white}, commentstyle=\color{black}, stringstyle=\color{black}, keywordstyle=\color{black}, basicstyle=\ttfamily\small\color{black}, breaklines=true, columns=fullflexible, keepspaces=true, upquote=true,
+    literate={á}{{á}}1 {é}{{é}}1 {í}{{í}}1 {ó}{{ó}}1 {ú}{{ú}}1 {ñ}{{ñ}}1 {¡}{{¡}}1 {¿}{{¿}}1}}
+
+% ---------------- Cajas ----------------
+\newcommand{\insignia}[2]{\tikz[baseline=-0.7ex]\node[circle,fill=white,text=#1,font=\simbolos\bfseries\footnotesize,inner sep=1.2pt,minimum size=1.15em]{#2};}
+\newtcolorbox{analogia}{enhanced, breakable, colback=orojp!8, colframe=orojp, arc=3mm, boxrule=0pt, leftrule=4pt,
+  left=3.5mm, drop fuzzy shadow=black!18,
+  title={\insignia{orojp}{★}\hspace{1.5mm}\sffamily\bfseries La idea en simple}, colbacktitle=orojp, coltitle=black, fonttitle=\small}
+\newtcolorbox{modifica}{enhanced, breakable, colback=cianjp!5, colframe=cianjp, arc=3mm, boxrule=1pt,
+  title={\insignia{cianjp}{✎}\hspace{1.5mm}\sffamily\bfseries Modificalo (cambiá, guardá, recargá)}, colbacktitle=cianjp, coltitle=white, fonttitle=\small}
+\newtcolorbox{reto}[1][Reto]{enhanced, breakable, colback=rojojp!4, colframe=rojojp!85!black, arc=3mm, boxrule=1pt,
+  title={\insignia{rojojp}{⚡}\hspace{1.5mm}\sffamily\bfseries #1}, colbacktitle=rojojp!85!black, coltitle=white, fonttitle=\small, drop fuzzy shadow=black!20}
+\newtcolorbox{comprueba}{enhanced, breakable, colback=white, colframe=verdejp, arc=3mm, boxrule=1pt,
+  title={\insignia{verdejp}{✓}\hspace{1.5mm}\sffamily\bfseries Comprobá que entendiste \hfill\mdseries\footnotesize respuestas en el Apéndice C},
+  colbacktitle=verdejp, coltitle=white, fonttitle=\small}
+\newtcolorbox{errores}{enhanced, breakable, colback=negro, colframe=negro, coltext=texto, arc=3mm, boxrule=0pt,
+  left=3.5mm, right=3.5mm, borderline west={4pt}{0pt}{brasa}, drop fuzzy shadow=black!30,
+  title={\insignia{negro}{!}\hspace{1.5mm}\sffamily\bfseries\color{brasa}ERRORES TÍPICOS DE ESTE NIVEL}, colbacktitle=negro, fonttitle=\small,
+  before upper={\color{texto}}}
+
+% Explicación línea por línea
+\newenvironment{lineas-explicadas}{\renewcommand{\arraystretch}{1.28}\small
+  \begin{longtable}{>{\leavevmode\ttfamily\bfseries\color{fuegooscuro}}p{1.25cm} p{14.0cm}}}{\end{longtable}}
+
+\newcommand{\xp}[1]{\tikz[baseline=-0.65ex]\node[fill=fuego,text=black,rounded corners=1.2mm,font=\sffamily\bfseries\scriptsize,inner sep=2.5pt]{+#1 XP};}
+\newcommand{\captura}[2][0.92\linewidth]{\begin{center}\tikz\node[draw=fuego!70,line width=0.8pt,rounded corners=1.5mm,inner sep=0pt]{\includegraphics[width=#1]{#2}};\end{center}}
+
+\newcommand{\parte}[1]{\par\needspace{9\baselineskip}\vspace{3mm}\noindent
+  \begin{tikzpicture}
+    \fill[negro,rounded corners=1.5mm] (0,0) rectangle (\linewidth,0.72);
+    \fill[fuego,rounded corners=1.5mm] (0,0) rectangle (0.2,0.72);
+    \node[anchor=west,text=white,font=\medio\normalsize] at (0.45,0.36) {#1};
+  \end{tikzpicture}\par\vspace{1.5mm}}
+
+% ---------------- Portadas ----------------
+\newcommand{\glitch}[4][west]{%
+  \node[anchor=#1,text=brasa,opacity=0.9,font=\titular#3,align=left] at ($(#2)+(-0.08,0.05)$) {#4};
+  \node[anchor=#1,text=oroneon,opacity=0.85,font=\titular#3,align=left] at ($(#2)+(0.08,-0.05)$) {#4};
+  \node[anchor=#1,text=white,font=\titular#3,align=left] at (#2) {#4};}
+\newcommand{\glitchancho}[3]{%
+  \node[anchor=south west,text=brasa,opacity=0.9,font=\titular#2,text width=16.6cm,align=left] at ($(#1)+(-0.08,0.05)$) {\hyphenpenalty=10000 #3};
+  \node[anchor=south west,text=oroneon,opacity=0.85,font=\titular#2,text width=16.6cm,align=left] at ($(#1)+(0.08,-0.05)$) {\hyphenpenalty=10000 #3};
+  \node[anchor=south west,text=white,font=\titular#2,text width=16.6cm,align=left] at (#1) {\hyphenpenalty=10000 #3};}
+\newcommand{\fondofuego}{%
+  \fill[negro] (current page.south west) rectangle (current page.north east);
+  \shade[top color=negro,bottom color=fuego!35!negro] ($(current page.south west)+(0,0)$) rectangle ($(current page.south east)+(0,7)$);
+  \foreach \x in {0,1,...,21}{\draw[lineaneon,line width=0.3pt,opacity=0.7] ($(current page.south west)+(\x,0)$) -- ++(0,29.7);}
+  \foreach \y in {0,1,...,30}{\draw[lineaneon,line width=0.3pt,opacity=0.7] ($(current page.south west)+(0,\y)$) -- ++(21,0);}}
+
+% \nivelportada{num}{titulo}{color}{frase}{tiempo}{xp}
+\newcommand{\nivelportada}[6]{%
+  \clearpage\thispagestyle{empty}\phantomsection\addcontentsline{toc}{section}{Nivel #1 · #2}%
+  \renewcommand{\seccionactual}{NIVEL #1 · #2}%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fondofuego
+    \coordinate (R) at ($(current page.north east)+(-5.2,-7.6)$);
+    \foreach \r in {1.2,2.4,3.6,4.8,6.0}{\draw[#3,opacity=0.3,line width=0.6pt] (R) circle (\r);}
+    \fill[#3,opacity=0.15] (R) -- ++(15:6) arc (15:75:6) -- cycle;
+    \draw[#3,line width=1.6pt] (R) -- ++(75:6);
+    \node[text=#3,opacity=0.18,font=\titular\fontsize{230}{230}\selectfont] at ($(R)+(0.2,-0.4)$) {#1};
+    \node[anchor=west,text=#3,font=\ttfamily\large] at ($(current page.west)+(2,3.5)$) {> NIVEL #1 · ENCENDIENDO EL FUEGO};
+    \coordinate (T) at ($(current page.west)+(1.95,-0.6)$);
+    \glitchancho{T}{\fontsize{38}{42}\selectfont}{#2}
+    \node[anchor=north west,text=texto,font=\Large\itshape,text width=15.5cm] at ($(current page.west)+(2,-1.6)$) {#4};
+    \node[anchor=west,draw=#3,text=#3,font=\ttfamily\small,rounded corners=1.5mm,inner sep=4pt] (c1) at ($(current page.west)+(2,-3.75)$) {TIEMPO #5};
+    \node[anchor=west,fill=#3,text=black,font=\ttfamily\bfseries\small,rounded corners=1.5mm,inner sep=4pt] at ($(c1.east)+(0.3,0)$) {+#6 XP};
+    \node[anchor=north west,text=grisneon,font=\ttfamily\small] at ($(current page.south west)+(2,8.4)$) {EN ESTE NIVEL};
+    \foreach \i/\t in {1/La idea en simple,2/Míralo funcionar,3/El código explicado línea por línea}{
+      \node[anchor=west,text=texto,font=\small] at ($(current page.south west)+(2,{7.9-0.62*\i})$) {\textcolor{#3}{\ttfamily 0\i}\quad \t};}
+    \foreach \i/\t in {4/Modificalo,5/El reto,6/Errores típicos · Comprobá}{
+      \node[anchor=west,text=texto,font=\small] at ($(current page.south west)+(10.5,{7.9-0.62*(\i-3)})$) {\textcolor{#3}{\ttfamily 0\i}\quad \t};}
+    \node[anchor=south west,text=grisneon,font=\ttfamily\scriptsize] at ($(current page.south west)+(2,1.2)$) {OPERACIÓN FOGÓN · PHP DESDE CERO · TECNOLOGÍA WEB I · UPDS TARIJA};
+  \end{tikzpicture}
+  \clearpage}
+
+
+% ---------- piezas del guion ----------
+\newcommand{\bloque}[4]{% hora, titulo, duracion, diapositivas
+  \par\needspace{12\baselineskip}\vspace{4mm}\noindent
+  \begin{tikzpicture}
+    \fill[negro,rounded corners=2mm] (0,0) rectangle (\linewidth,1.15);
+    \fill[fuego,rounded corners=2mm] (0,0) rectangle (2.3,1.15);
+    \node[text=black,font=\titular\Large] at (1.15,0.575) {#1};
+    \node[anchor=west,text=white,font=\medio\large] at (2.65,0.74) {#2};
+    \node[anchor=west,text=grisneon,font=\ttfamily\scriptsize] at (2.65,0.3) {DURACIÓN #3 \quad·\quad DIAPOSITIVAS #4};
+  \end{tikzpicture}\par\vspace{1.5mm}}
+\newtcolorbox{deci}{enhanced, breakable, colback=fuego!7, colframe=fuego, arc=2mm, boxrule=0pt, leftrule=4pt,
+  left=3mm, top=1.5mm, bottom=1.5mm, fontupper=\itshape,
+  title={\sffamily\bfseries\upshape DECÍ ESTO}, colbacktitle=fuego, coltitle=black, fonttitle=\scriptsize,
+  attach boxed title to top left={xshift=4mm,yshift=-2mm}, boxed title style={arc=1mm,boxrule=0pt}}
+\newtcolorbox{hace}{enhanced, breakable, colback=cianjp!6, colframe=cianjp, arc=2mm, boxrule=0pt, leftrule=4pt,
+  left=3mm, top=1.5mm, bottom=1.5mm,
+  title={\sffamily\bfseries HACÉ ESTO}, colbacktitle=cianjp, coltitle=white, fonttitle=\scriptsize,
+  attach boxed title to top left={xshift=4mm,yshift=-2mm}, boxed title style={arc=1mm,boxrule=0pt}}
+\newtcolorbox{siFalla}{enhanced, breakable, colback=rojojp!5, colframe=rojojp, arc=2mm, boxrule=0pt, leftrule=4pt,
+  left=3mm, top=1.5mm, bottom=1.5mm,
+  title={\sffamily\bfseries SI ALGO FALLA}, colbacktitle=rojojp, coltitle=white, fonttitle=\scriptsize,
+  attach boxed title to top left={xshift=4mm,yshift=-2mm}, boxed title style={arc=1mm,boxrule=0pt}}
+\newcommand{\diapo}[1]{\tikz[baseline=-0.65ex]\node[fill=negro,text=fuego,rounded corners=1mm,font=\ttfamily\bfseries\scriptsize,inner sep=2.5pt]{D#1};}
+
+\begin{document}
+% ================= PORTADA =================
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture,overlay]
+  \fill[negro] (current page.south west) rectangle (current page.north east);
+  \fondofuego
+  \node[anchor=west,text=fuego,font=\ttfamily\small] at ($(current page.west)+(2,4.2)$) {Tecnología Web I · FORJA WEB 2026 · Lunes 23 de noviembre · 3 horas};
+  \node[anchor=west,text=white,font=\titular\fontsize{50}{52}\selectfont] at ($(current page.west)+(2,2.6)$) {GUION};
+  \node[anchor=west,text=fuego,font=\titular\fontsize{50}{52}\selectfont] at ($(current page.west)+(2,0.8)$) {DOCENTE};
+  \node[anchor=west,text=texto,font=\sffamily\Large] at ($(current page.west)+(2,-0.7)$) {Operación Fogón · PHP desde cero};
+  \node[anchor=north west,text=grisneon,font=\sffamily\small,text width=15cm] at ($(current page.west)+(2,-1.6)$)
+    {Minuto a minuto, con lo que hay que decir, lo que hay que mostrar y qué hacer cuando algo se rompe. Solo para el profe: no se reparte.};
+  \node[anchor=south west,text=grisneon,font=\small] at ($(current page.south west)+(2,2.1)$) {M.Sc. Ing. Juan Pablo Cruz Ovando · UPDS Tarija · Noviembre 2026};
+  \node[anchor=south west,text=grisneon,font=\scriptsize] at ($(current page.south west)+(2,1.5)$) {70213044 / 61865265 · gerencia@jpcruzovando.com · jpcruzovando.com};
+  \IfFileExists{imagenes/danko.png}{\node[anchor=north east] at ($(current page.north east)+(-1,-1)$) {\includegraphics[height=1.5cm]{imagenes/danko.png}};}{}
+\end{tikzpicture}
+\clearpage
+
+% ================= RESUMEN =================
+\renewcommand{\seccionactual}{LA CLASE EN UNA PÁGINA}
+\section*{La clase en una página}
+\textbf{Objetivo:} que alguien que nunca vio PHP salga sabiendo \textbf{dónde} se ejecuta, \textbf{escribir} variables, \texttt{if} y \texttt{foreach},
+\textbf{recibir} un formulario y \textbf{guardar y leer} de MySQL con consultas preparadas, y que se lleve la intriga del XSS para el martes.
+
+\renewcommand{\arraystretch}{1.3}
+\begin{longtable}{>{\leavevmode\ttfamily\bfseries\color{fuegooscuro}}p{1.7cm} >{\bfseries}p{4.2cm} p{1.5cm} >{\raggedright\arraybackslash}p{7.6cm}}
+\toprule
+\normalfont\bfseries Hora & Bloque & \textbf{Diap.} & \textbf{Lo que tiene que pasar} \\
+\midrule
+0:00 & Arranque + gancho & 1--7 & Todos lanzan \texttt{iniciar.ps1} al llegar. Demo HTML vs PHP. «Ver código fuente». \\
+0:12 & La cocina de la web & 8--16 & Analogía mozo/cocinero/despensa. 70\,\%. Todos con el mapa encendido. \\
+0:25 & Nivel 1 · Hablar & 17--22 & \texttt{echo}, variables, comillas. Reto tarjeta (10 min). \\
+0:50 & Nivel 2 · Decidir & 23--28 & \texttt{if}, arrays, \texttt{foreach}. Momento mágico. Reto menú (12 min). \\
+1:20 & Nivel 3 · Escuchar & 29--34 & Oráculo. Contraseña en la URL. GET vs POST. \\
+1:40 & Receso & 35 & 10 minutos. Vos: revisás que todos tengan \texttt{fogon-db} \emph{healthy}. \\
+1:50 & Nivel 4 · Recordar & 36--42 & PDO, SELECT, la magia de phpMyAdmin, INSERT preparado, libro de visitas. \\
+2:20 & Nivel 5 · El museo & 43--45 & 5 errores rotos a propósito, en parejas. Regla de oro. \\
+2:32 & Jefe final & 46--47 & \texttt{contacto.php} a su proyecto FORJA WEB, de cara a la defensa del miércoles. \\
+2:50 & Cliffhanger + cierre & 48--55 & Hackeás el libro en vivo. «Mañana: hackeá y blindá». Ticket de salida. \\
+\bottomrule
+\end{longtable}
+
+\begin{marco}[fuego]{Las 3 frases que tienen que quedar}
+\textbf{1.} «PHP se ejecuta en el servidor; al navegador solo le llega HTML.»\\
+\textbf{2.} «El código queda igual; los datos cambian.» (phpMyAdmin)\\
+\textbf{3.} «Nunca confíes en lo que llega del navegador.» (validar, preparar, escapar)
+\end{marco}
+
+\begin{ojo}[Regla del reloj]
+Si vas atrasado, se recorta en este orden: (1) el bonus de los retos, (2) la parte B del museo (que lo hagan en casa),
+(3) el jefe final queda como tarea con la guía. \textbf{Nunca} se recorta el cliffhanger: es el puente a la clase del martes.
+\end{ojo}
+
+% ================= NOCHE ANTERIOR =================
+\clearpage
+\renewcommand{\seccionactual}{LA NOCHE ANTERIOR}
+\section*{La noche anterior (domingo)}
+
+\parte{1 · Bajar y probar todo en TU máquina}
+\begin{terminal}[PowerShell]{dentro de la carpeta operacion-fogon}
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\iniciar.ps1
+docker compose ps          # fogon-db tiene que decir (healthy)
+\end{terminal}
+Recorré \textbf{todas} las páginas del mapa (\texttt{localhost:8090}) y phpMyAdmin (\texttt{localhost:8091}). Firmá el libro y limpialo.
+
+\parte{2 · Las imágenes en un USB (por si el wifi del aula muere)}
+Bajar las tres imágenes ocupa unos cientos de MB por alumno: con 30 alumnos a la vez, el wifi de la universidad no aguanta.
+\begin{terminal}[PowerShell]{guardar las imágenes en un archivo}
+docker images | findstr fogon      # anotá el nombre de la imagen web construida
+docker save -o fogon-imagenes.tar php:8.3-apache mysql:8.4 phpmyadmin:5 operacion-fogon-web
+\end{terminal}
+(Si tu carpeta tiene otro nombre, la imagen web se llama \texttt{<carpeta>-web}.) En la PC del alumno:
+\begin{terminal}[PowerShell]{cargar desde el USB}
+docker load -i E:\fogon-imagenes.tar
+\end{terminal}
+Con la imagen web cargada, el \texttt{--build} usa la caché y no descarga nada. Si no la incluís, el build necesita \texttt{php:8.3-apache} y compila \texttt{pdo\_mysql} (tarda 1--2 minutos más, pero no necesita internet).
+
+\parte{3 · Checklist}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{l X}
+\casilla & Kit \texttt{operacion-fogon} probado en tu máquina, de punta a punta. \\
+\casilla & USB con: carpeta \texttt{operacion-fogon}, \texttt{fogon-imagenes.tar}, la guía del estudiante y la chuleta en PDF. \\
+\casilla & Mensaje al grupo de WhatsApp (abajo) enviado el domingo a la noche. \\
+\casilla & Presentación \texttt{fogon-presentacion.pdf} en la laptop, abierta en modo presentación. \\
+\casilla & Libro de visitas \textbf{vacío} de tu demo (\texttt{limpiar-libro.php}) para que el hackeo final se vea limpio. \\
+\casilla & Zoom del navegador al 150\,\% y de VS Code al 150\,\% para el proyector. \\
+\casilla & Hotspot del celular listo como plan B. \\
+\casilla & Hojas en blanco para el ticket de salida. \\
+\end{tabularx}
+
+\parte{4 · Mensaje para el grupo (domingo a la noche)}
+\begin{salida}[copiar y pegar en WhatsApp]
+Mañana hacemos PHP desde cero con Docker. Traigan la laptop CARGADA
+y con Docker Desktop instalado y abierto. Si pueden, antes de clase
+ejecuten:  docker pull php:8.3-apache
+           docker pull mysql:8.4
+           docker pull phpmyadmin:5
+Si no les funciona Docker, vengan igual: trabajamos en parejas.
+\end{salida}
+
+% ================= MINUTO A MINUTO =================
+\clearpage
+\renewcommand{\seccionactual}{MINUTO A MINUTO}
+\section*{Minuto a minuto}
+
+\bloque{−0:15}{Montaje (antes de que entren)}{15 min}{—}
+\begin{hace}
+Proyector con la \diapo{1} en pantalla. En tu laptop: cocina encendida, una pestaña con \texttt{00-gancho/hora.html} y otra con \texttt{hora.php}.
+Copiá el kit en 3 o 4 USB y escribí en la pizarra:
+\texttt{1) Copiá operacion-fogon al Escritorio  2) Clic derecho → Abrir en Terminal  3) Set-ExecutionPolicy -Scope Process Bypass  4) .\textbackslash scripts\textbackslash iniciar.ps1}
+\end{hace}
+
+\bloque{0:00}{Arranque y gancho}{12 min}{1--7}
+\begin{hace}
+Mientras entran, que \textbf{todos} sigan los pasos de la pizarra: así Docker descarga mientras vos hablás. Sin saludo largo: arrancá con la \diapo{1}.
+\end{hace}
+\begin{deci}
+«Les voy a mostrar dos páginas. Mismo diseño, misma pinta. Una sabe qué hora es. La otra, no. ¿Cuál es cuál?»
+\end{deci}
+\begin{hace}
+\diapo{3} Abrí \texttt{hora.html} y \texttt{hora.php}. Recargá cada una cinco veces, despacio. La HTML se queda en 10:00:00; la PHP cambia la hora y cuenta visitas.
+Que voten a mano alzada antes de recargar.\\
+\diapo{5} En \texttt{hora.php}: \texttt{Ctrl+U}. Pedí que busquen el código PHP.
+\end{hace}
+\begin{deci}
+«¿Dónde está el código? No está. El navegador nunca lo ve. PHP se ejecutó \textbf{en el servidor}, adentro del contenedor, y al navegador solo le llegó el resultado: HTML. Esa es la idea más importante de toda la clase.» \diapo{7}
+\end{deci}
+
+\bloque{0:12}{La cocina de la web}{13 min}{8--16}
+\begin{deci}
+\diapo{9} «Ustedes son el cliente en un restaurante. Apache es el mozo. Si piden una gaseosa, el mozo la trae tal cual: eso es un \texttt{.html}.
+Si piden un pique macho, el mozo va a la cocina: el cocinero es PHP. Y los ingredientes están en la despensa: MySQL. Ustedes nunca entran a la cocina; solo ven el plato servido.»
+\end{deci}
+\begin{deci}
+\diapo{14} «¿Por qué aprender PHP en 2026? Porque según W3Techs está en 7 de cada 10 sitios web cuyo lenguaje de servidor se conoce. WordPress está hecho en PHP.»
+\end{deci}
+\begin{hace}
+\diapo{16} Pedí que levanten la mano los que ven el mapa de la cocina con \textbf{cocinero y despensa encendidos}. Los que no: a la sección «Si algo falla» de este guion. Mostrá en VS Code la carpeta \texttt{www} y el ciclo \textbf{editar → Ctrl+S → F5}.
+\end{hace}
+\begin{siFalla}
+Si más de un tercio no levanta: no esperes. Armá parejas (uno con Docker funcionando + uno sin) y seguí. Los que no tengan base pueden usar \texttt{plan-b-sin-base.ps1} hasta el nivel 3.
+\end{siFalla}
+
+\bloque{0:25}{Nivel 1 · Hablar}{25 min}{17--22}
+\begin{hace}
+\diapo{18} Abrí \texttt{01-hablar/1-echo.php} en VS Code \textbf{al lado} del navegador. Escribí en vivo, no copies: \texttt{\$nombre = 'Juan Pablo';} y \texttt{echo}.
+\end{hace}
+\begin{deci}
+\diapo{19} «Una variable es una cajita con una etiqueta. La etiqueta empieza siempre con signo de dólar.»\\
+\diapo{20} «Ahora un truco: ¿qué creen que sale con comillas simples?» (Dejá que apuesten. Mostrá \texttt{\$precio} literal.) «Comillas dobles: PHP mira adentro. Simples: no mira.»
+\end{deci}
+\begin{hace}
+\diapo{22} \textbf{Reto tarjeta: 10 minutos con cronómetro en pantalla.} Caminá el aula. Error más común: falta \texttt{;}. No lo arregles vos: preguntá «¿qué dice PHP? ¿en qué línea?».
+Cuando terminan, que 2 o 3 muestren su tarjeta en el proyector.
+\end{hace}
+
+\bloque{0:50}{Nivel 2 · Decidir y repetir}{30 min}{23--28}
+\begin{deci}
+\diapo{24} «\texttt{if} es el portero del boliche. Mira tu edad y decide.» Preguntá: «si tengo 17, ¿qué condición se cumple primero?»
+\end{deci}
+\begin{hace}
+Misión del caso 18: dejá que lo pongan \textbf{al final} y que vean que no funciona. Después explicá que PHP se queda con la primera condición verdadera. Ese error enseña más que la respuesta.
+\end{hace}
+\begin{deci}
+\diapo{26} «Miren: escribí \textbf{una} fila de tabla. Una sola.» \diapo{27} Agregá un plato al array en vivo, guardá, recargá. «Apareció solo. No toqué el HTML. Con tres líneas generan tres filas\ldots\ o tres mil.»
+\end{deci}
+\begin{hace}
+\diapo{28} Reto «¿me alcanza?»: 12 minutos. Solución en \texttt{soluciones/3-reto-menu-solucion.php}: mostrala en pantalla solo al final.
+\end{hace}
+
+\bloque{1:20}{Nivel 3 · Escuchar}{20 min}{29--34}
+\begin{hace}
+\diapo{31} Todos abren el Oráculo. Que le pregunten algo, y \textbf{que miren la URL}.
+\end{hace}
+\begin{deci}
+«¿Ven \texttt{?nombre=...\&pregunta=...}? Sus datos viajaron en la dirección. Eso es GET. PHP lo recibe en un array que se llama \texttt{\$\_GET}, y el \texttt{name} del input es la etiqueta.»
+\end{deci}
+\begin{hace}
+\diapo{32} Abrí \texttt{2-login-get.php} y escribí \texttt{forja2026} en el proyector. Señalá la URL con el puntero.
+\end{hace}
+\begin{deci}
+«Acabo de escribir mi contraseña\ldots\ y quedó en la barra, en el historial y en los registros del servidor. Cualquiera detrás mío la lee.»
+\diapo{34} «Con POST va en un sobre. Pero ojo: POST no cifra nada. Lo que protege de verdad es HTTPS, el candadito.» (Si querés, mostrá F12 → Red con el login POST.)
+\end{deci}
+
+\bloque{1:40}{Receso}{10 min}{35}
+\begin{hace}
+Dejá la \diapo{35} con el cronómetro. Vos: recorrés y verificás que todos tengan \texttt{fogon-db} \emph{healthy} (\texttt{docker compose ps}) y que la página \texttt{04-recordar/} no diga «despensa cerrada». Es el momento de rescatar a los atrasados.
+\end{hace}
+
+\bloque{1:50}{Nivel 4 · Recordar}{30 min}{36--42}
+\begin{deci}
+\diapo{37} «Hasta ahora, cada vez que recargaban, PHP se olvidaba de todo. Hoy abrimos la despensa.»\\
+\diapo{38} «PDO es la llave. ¿Por qué el host se llama \texttt{db} y no \texttt{localhost}? Porque son dos contenedores distintos, y en la red de Docker se encuentran por su nombre.»
+\end{deci}
+\begin{hace}
+\diapo{39} Menú desde la base. Tocá los filtros por categoría y mostrá \texttt{?cat=Postre} en la URL: «el GET del nivel anterior, ahora consultando MySQL».\\
+\diapo{40} \textbf{La magia}: todos abren phpMyAdmin, insertan su plato favorito y recargan el menú.
+\end{hace}
+\begin{deci}
+«No tocaron ni una línea de PHP y la página cambió. Así funciona Facebook, el sistema de la universidad, todo: el código queda igual, los datos cambian.»
+\end{deci}
+\begin{deci}
+\diapo{41} «Para guardar usamos una consulta preparada: los signos de pregunta son huecos, y los datos del usuario van aparte. Recuerden esto: mañana van a ver por qué es tan importante.»
+\end{deci}
+\begin{hace}
+\diapo{42} Todos firman el libro de visitas. \textbf{No les digas nada de la línea sin escudo.} Si alguien la descubre, felicitalo en voz baja y pedile que guarde el secreto hasta el final.
+\end{hace}
+
+\bloque{2:20}{Nivel 5 · El museo de los errores}{12 min}{43--45}
+\begin{hace}
+En parejas: cada pareja arregla los 5 archivos de \texttt{05-errores/}. Vos proyectá el \#1 y resolvelo en voz alta como modelo: leé el tipo, leé la línea, mirá la de arriba.
+\end{hace}
+\begin{deci}
+\diapo{45} «Un error no es un reto: es PHP ayudándolos. Les dice qué pasó y en qué línea. El más peligroso es el \#3, porque no da error: la página “anda”, pero está mal.»
+\end{deci}
+
+\bloque{2:32}{Jefe final · PHP en su proyecto}{18 min}{46--47}
+\begin{hace}
+\diapo{47} Que abran \texttt{06-reto-final/contacto.php} y lo envíen \textbf{mal a propósito}. Mostrá los mensajes de error. Después: llevarlo a su proyecto FORJA WEB (los pasos están en la guía).
+\end{hace}
+\begin{deci}
+«El miércoles, en la defensa, pueden decir: “nuestro sitio guarda los mensajes en MySQL con consultas preparadas y valida los datos”. Eso suma.»
+\end{deci}
+\begin{ojo}[Realismo]
+En 18 minutos la mayoría no lo termina en su proyecto. Está bien: que quede funcionando en el laboratorio y que lo integren en casa con la guía. El martes en la segunda parte hay tiempo para el despegue del proyecto.
+\end{ojo}
+
+\bloque{2:50}{Cliffhanger y cierre}{10 min}{48--55}
+\begin{hace}
+\diapo{48} Bajá el tono. «Un momento\ldots» Andá a tu libro de visitas (en el proyector) y firmalo con este mensaje (tenelo copiado en un bloc de notas):
+\end{hace}
+\begin{salida}[el mensaje del «hacker» · copialo antes de clase]
+<h1 style="color:red">HACKEADO</h1><script>alert('hackeado')</script>
+\end{salida}
+\begin{hace}
+\diapo{49} Sale la alerta y el título rojo. Si los alumnos están conectados a tu laptop por la red, que abran tu libro desde su máquina: les salta a ellos también. Si no, que lo hagan en el suyo.
+\end{hace}
+\begin{deci}
+\diapo{50} «Miren la línea 54 de \texttt{2-libro.php}: imprime el mensaje tal cual, sin el escudo \texttt{htmlspecialchars}. El navegador lo leyó como código y lo ejecutó. Esto se llama XSS. El Oráculo y el contacto no se dejan, porque sí tienen el escudo.»\\
+\diapo{52} «Mañana: hackeamos nuestras propias páginas con XSS e inyección SQL\ldots\ y las blindamos. Traigan su proyecto. Y no lo arreglen todavía.»
+\end{deci}
+\begin{hace}
+\diapo{54} Ticket de salida en una hoja (3 minutos). \diapo{55} Cierre. Después: \texttt{limpiar-libro.php} (escribir \texttt{LIMPIAR}).
+\end{hace}
+
+% ================= PLAN B =================
+\clearpage
+\renewcommand{\seccionactual}{PLAN B Y RESCATE}
+\section*{Plan B y rescate}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{>{\raggedright\arraybackslash\bfseries}p{4.6cm} >{\raggedright\arraybackslash}p{11.2cm}}
+\toprule
+Síntoma & Qué hacer (rápido) \\
+\midrule
+\endhead
+«running scripts is disabled» & \texttt{Set-ExecutionPolicy -Scope Process Bypass} en esa misma ventana. \\
+«Cannot connect to the Docker daemon» & Abrir Docker Desktop y esperar. Si pide WSL: \texttt{wsl --update} (requiere reinicio: mandalo a pareja). \\
+Descarga lentísima & USB: \texttt{docker load -i fogon-imagenes.tar}. Si no hay USB, hotspot del celular solo para esa PC. \\
+«port is already allocated» & XAMPP o un MySQL local usan el puerto. Cerrarlos, o cambiar en \texttt{docker-compose.yml} el número de la izquierda (\texttt{"8095:80"}). \\
+«La despensa está cerrada» & \texttt{docker compose ps}: si \texttt{fogon-db} dice \emph{starting}, esperar 30 s. Si dice \emph{unhealthy}: \texttt{docker compose logs db}. \\
+MySQL no arranca nunca & \texttt{.\textbackslash scripts\textbackslash reiniciar-base.ps1} (borra el volumen y recarga \texttt{init.sql}). \\
+PC sin virtualización / Docker imposible & Pareja. O \texttt{plan-b-sin-base.ps1} si Docker anda pero MySQL no (sirve hasta el nivel 3 y el museo). \\
+Edita y no cambia & ¿Guardó? ¿Está editando la carpeta correcta (la del laboratorio, no una copia en Descargas)? \texttt{Ctrl+F5}. \\
+Tildes raras en el menú & No pasa con el kit (conexión con \texttt{utf8mb4}). Si lo copiaron a su proyecto: falta \texttt{charset=utf8mb4}. \\
+Se cae TU laptop & La presentación también está en el USB en PDF; seguí con la laptop de un alumno que tenga el kit encendido. \\
+\bottomrule
+\end{longtable}
+
+% ================= PREGUNTAS =================
+\renewcommand{\seccionactual}{PREGUNTAS QUE VAN A HACER}
+\section*{Preguntas que van a hacer (y qué responder)}
+\begin{description}[leftmargin=0pt, style=nextline, font=\sffamily\bfseries\color{fuegooscuro}]
+\item[«¿PHP no está muerto?»] Sigue en la mayoría de los sitios con lenguaje de servidor conocido (W3Techs), y WordPress y Laravel lo mantienen vivo. Lo que aprendieron hoy (petición, servidor, base de datos, formularios) es igual en Node, Python o Java.
+\item[«¿Por qué no XAMPP?»] Docker les da exactamente el mismo entorno a todos, no ensucia la PC, y es como se trabaja en la industria. Además, se apaga con un comando.
+\item[«¿Para qué sirve el \texttt{?>} al final?»] Para volver a HTML. En un archivo que es solo PHP (como \texttt{conexion.php}) se puede omitir.
+\item[«¿Qué diferencia hay entre \texttt{echo} y \texttt{print}?»] Para lo que hacemos, ninguna. Usamos \texttt{echo} por costumbre.
+\item[«¿Y si uso \texttt{mysqli}?»] Funciona, pero PDO sirve para varias bases de datos y tiene consultas preparadas con una sintaxis más simple.
+\item[«¿El \texttt{?} de la consulta no es lo mismo que pegar el texto?»] No. Con el hueco, MySQL recibe la orden y los datos por separado: los datos nunca se convierten en parte de la orden. Mañana lo demostramos atacando una versión que sí pega el texto.
+\item[«¿Puedo subir esto a internet?»] Sí: cualquier hosting con PHP y MySQL. El martes vemos cómo empaquetar el proyecto con Docker.
+\end{description}
+
+% ================= TICKET =================
+\renewcommand{\seccionactual}{TICKET DE SALIDA}
+\section*{Ticket de salida · respuestas esperadas}
+\begin{enumerate}
+  \item \textbf{¿Dónde se ejecuta PHP?} En el servidor. Al navegador solo le llega HTML.
+  \item \textbf{¿Qué diferencia hay entre GET y POST?} GET manda los datos en la URL; POST en el cuerpo de la petición (no se ven en la barra, pero no están cifrados).
+  \item \textbf{¿Qué tenía de malo el libro de visitas?} Mostraba el mensaje sin \texttt{htmlspecialchars}: se podía meter HTML y JavaScript (XSS).
+\end{enumerate}
+\textbf{Para leer los tickets:} si más de un tercio falla la 1, abrí el martes con 3 minutos de la cocina. Si fallan la 3, perfecto: es la clase del martes.
+
+\vfill
+\begin{tip}[Para el martes]
+Dejá los contenedores como están: el libro de visitas vulnerable es el punto de partida de «Fortaleza + despegue».
+\end{tip}
+\end{document}

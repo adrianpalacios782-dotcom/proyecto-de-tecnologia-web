@@ -1,0 +1,229 @@
+% =====================================================================
+%  APÉNDICES
+% =====================================================================
+\clearpage
+\renewcommand{\seccionactual}{APÉNDICE A · PHP EN UNA PÁGINA}
+\section*{Apéndice A · PHP en una página}
+\addcontentsline{toc}{section}{Apéndice A · PHP en una página}
+
+\begin{multicols}{2}
+\small
+\parte{Abrir, hablar, cerrar}
+\begin{php}{básico}
+<?php
+echo 'Hola';          // escribe
+$x = 5;               // variable
+?>
+<p><?= $x ?></p>      <!-- atajo -->
+\end{php}
+
+\parte{Textos}
+\begin{php}{comillas y punto}
+$n = 'Ana';
+echo "Hola $n";       // Hola Ana
+echo 'Hola $n';       // Hola $n
+echo 'Hola ' . $n;    // Hola Ana
+\end{php}
+
+\parte{Decidir}
+\begin{php}{if}
+if ($edad >= 18) {
+    echo 'Pasá';
+} elseif ($edad >= 13) {
+    echo 'Con un adulto';
+} else {
+    echo 'No';
+}
+\end{php}
+
+\parte{Listas y fichas}
+\begin{php}{arrays}
+$frutas = ['manzana', 'pera'];
+echo $frutas[0];      // manzana
+
+$plato = ['nombre' => 'Saice',
+          'precio' => 38];
+echo $plato['precio']; // 38
+echo count($frutas);   // 2
+\end{php}
+
+\parte{Repetir}
+\begin{php}{foreach en HTML}
+<?php foreach ($menu as $p): ?>
+  <li><?= $p['plato'] ?></li>
+<?php endforeach; ?>
+\end{php}
+
+\parte{Escuchar}
+\begin{php}{formularios}
+$a = $_GET['nombre'] ?? '';
+$b = $_POST['clave'] ?? '';
+if ($_SERVER['REQUEST_METHOD']
+      === 'POST') { /* ... */ }
+\end{php}
+
+\parte{Escudo (siempre al mostrar)}
+\begin{php}{htmlspecialchars}
+function e($t) {
+  return htmlspecialchars($t,
+    ENT_QUOTES, 'UTF-8');
+}
+echo e($_GET['nombre'] ?? '');
+\end{php}
+
+\parte{Base de datos}
+\begin{php}{PDO}
+$pdo = new PDO(
+ 'mysql:host=db;dbname=fogon;charset=utf8mb4',
+ 'fogon', 'fogon123');
+
+$filas = $pdo->query(
+  'SELECT * FROM menu')->fetchAll();
+
+$q = $pdo->prepare(
+  'INSERT INTO visitas (nombre, mensaje)
+   VALUES (?, ?)');
+$q->execute([$nombre, $mensaje]);
+\end{php}
+
+\end{multicols}
+
+% =====================================================================
+\clearpage
+\renewcommand{\seccionactual}{APÉNDICE B · GLOSARIO}
+\section*{Apéndice B · Glosario}
+\addcontentsline{toc}{section}{Apéndice B · Glosario}
+
+\renewcommand{\arraystretch}{1.35}
+\begin{longtable}{>{\leavevmode\sffamily\bfseries\color{fuegooscuro}}p{3.6cm} p{12.2cm}}
+Apache & El servidor web: recibe las peticiones del navegador y entrega las páginas (el \emph{mozo}). \\
+Array & Una lista de valores (\texttt{['a', 'b']}) o una ficha con nombres (\texttt{['plato' => 'Saice']}). \\
+Cliente & Quien pide la página: el navegador. \\
+Concatenar & Pegar textos con el punto: \texttt{'Hola ' . \$nombre}. \\
+Consulta preparada & Una consulta SQL con huecos (\texttt{?}) donde los datos del usuario van por separado. Protege contra la inyección SQL. \\
+Contenedor & Una «cajita» de Docker que trae un programa listo para usar (PHP, MySQL\ldots) sin instalarlo en tu PC. \\
+\texttt{docker-compose.yml} & El «plano» que dice qué contenedores levantar y cómo se conectan. \\
+\texttt{echo} & La instrucción que escribe algo en la página. \\
+GET & Forma de enviar datos en la URL (\texttt{?nombre=Ana}). Se ven y se pueden guardar en favoritos. \\
+\texttt{htmlspecialchars} & El escudo: convierte \texttt{<} y \texttt{>} en texto inofensivo, para que el navegador los muestre en lugar de ejecutarlos. \\
+MySQL & El gestor de base de datos: guarda los datos en tablas aunque se apague todo (la \emph{despensa}). \\
+PDO & La forma de PHP para conectarse a una base de datos (la \emph{llave} de la despensa). \\
+PHP & Lenguaje que se ejecuta en el servidor y genera HTML (el \emph{cocinero}). \\
+phpMyAdmin & Página web para ver y editar la base de datos sin escribir SQL. \\
+POST & Forma de enviar datos en el cuerpo de la petición. No se ven en la URL (pero no están cifrados). \\
+PRG & \emph{Post, Redirect, Get}: después de guardar, redirigir para que F5 no repita el envío. \\
+Servidor & La máquina (o el contenedor) donde vive tu sitio y donde corre PHP. \\
+Sesión & La memoria que PHP guarda para cada visitante (\texttt{\$\_SESSION}). \\
+SQL & El idioma de las bases de datos: \texttt{SELECT} (leer), \texttt{INSERT} (guardar), \texttt{UPDATE}, \texttt{DELETE}. \\
+Validar & Revisar que los datos que llegan tengan sentido antes de usarlos. \\
+Variable & Una cajita con nombre que guarda un dato. En PHP empieza con \texttt{\$}. \\
+XSS & \emph{Cross-Site Scripting}: un ataque en el que alguien mete código HTML o JavaScript en tu página a través de un formulario. \\
+\end{longtable}
+
+\subsection*{Funciones que usamos hoy}
+\renewcommand{\arraystretch}{1.15}
+\begin{tabularx}{\linewidth}{>{\ttfamily}l X}
+date('H:i') & hora actual \\
+strtoupper(\$t) & a mayúsculas \\
+strlen(\$t) & largo del texto \\
+trim(\$t) & quita espacios \\
+count(\$a) & elementos del array \\
+array\_rand(\$a) & posición al azar \\
+filter\_var(\$c, \ldots) & valida un correo \\
+header('Location: x') & redirige \\
+\end{tabularx}
+
+% =====================================================================
+\clearpage
+\renewcommand{\seccionactual}{APÉNDICE C · RESPUESTAS}
+\section*{Apéndice C · Respuestas de «Comprobá que entendiste»}
+\addcontentsline{toc}{section}{Apéndice C · Respuestas}
+
+\subsection*{Nivel 0 · El gancho}
+\begin{enumerate}
+  \item Porque PHP se ejecuta en el servidor: el navegador solo recibe el HTML que PHP generó.
+  \item «¡Buenas noches!»: 20 no es menor que 12 ni menor que 19, así que entra al \texttt{else}.
+  \item No. El código PHP nunca sale del servidor; solo sale su resultado.
+\end{enumerate}
+
+\subsection*{Nivel 1 · Hablar}
+\begin{enumerate}
+  \item Con el signo \texttt{\$}.
+  \item Con simples: \texttt{Total: \$precio} (literal). Con dobles: \texttt{Total: 12.5} (el valor).
+  \item Para pegar (concatenar) textos y variables.
+  \item Un atajo de \texttt{<?php echo \$x; ?>}.
+\end{enumerate}
+
+\subsection*{Nivel 2 · Decidir y repetir}
+\begin{enumerate}
+  \item \texttt{\$edad < 18}: no es menor que 13, pero sí menor que 18. Sale «Sos adolescente».
+  \item \texttt{=} guarda un valor en una variable; \texttt{==} compara dos valores.
+  \item Repite un bloque una vez por cada elemento del array. Se escribe una fila y PHP la repite por cada plato.
+  \item \texttt{\$item['precio']}.
+\end{enumerate}
+
+\subsection*{Nivel 3 · Escuchar}
+\begin{enumerate}
+  \item Un array con los datos que vinieron en la URL. Lo llena PHP solo.
+  \item El \texttt{name} del campo es la clave con la que el dato aparece en \texttt{\$\_GET}.
+  \item Porque la contraseña queda en la URL: en el historial, en los registros del servidor y a la vista.
+  \item No. POST solo la saca de la URL. Lo que la protege en el camino es HTTPS.
+\end{enumerate}
+
+\subsection*{Nivel 4 · Recordar}
+\begin{enumerate}
+  \item Porque PHP y MySQL están en contenedores distintos. Para el contenedor de PHP, \texttt{localhost} es él mismo; a MySQL lo encuentra por su nombre de servicio, \texttt{db}.
+  \item \texttt{query} manda el SQL tal cual (sirve cuando no hay datos del usuario). \texttt{prepare} + \texttt{execute} mandan el SQL con huecos y los datos por separado: es lo seguro cuando hay datos del usuario.
+  \item Huecos donde van los datos. MySQL los trata siempre como datos, nunca como parte de la orden SQL.
+  \item Para que al recargar (F5) el navegador no vuelva a enviar el formulario y no se guarde el mensaje dos veces.
+\end{enumerate}
+
+\subsection*{Nivel 5 · El museo}
+\begin{enumerate}
+  \item En la línea de arriba (la 5). Muchas veces el error empieza antes, por ejemplo con un \texttt{;} que falta.
+  \item Porque no muestra ningún error: la página «funciona», pero muestra algo equivocado. Hay que mirar con atención.
+  \item Porque Apache solo le pasa a PHP los archivos que terminan en \texttt{.php}. Los \texttt{.html} los entrega tal cual.
+\end{enumerate}
+
+% =====================================================================
+\clearpage
+\renewcommand{\seccionactual}{APÉNDICE D · SI ALGO FALLA}
+\section*{Apéndice D · Si algo falla}
+\addcontentsline{toc}{section}{Apéndice D · Si algo falla}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{>{\raggedright\arraybackslash\bfseries}p{4.6cm} >{\raggedright\arraybackslash}p{11.2cm}}
+\toprule
+Problema & Qué hacer \\
+\midrule
+\endhead
+El script no se ejecuta («running scripts is disabled») & Primero: \texttt{Set-ExecutionPolicy -Scope Process Bypass}. Vale solo para esa ventana de PowerShell. \\
+«Cannot connect to the Docker daemon» & Docker Desktop no está abierto o todavía está arrancando. Abrilo y esperá a que la ballena se quede quieta. \\
+«port is already allocated» & Otro programa usa ese puerto (por ejemplo XAMPP en el 80 o un MySQL en el 3306). En \texttt{docker-compose.yml} cambiá el número de la izquierda: \texttt{"8095:80"}. \\
+La página dice «La despensa está cerrada» & MySQL todavía está arrancando. Mirá \texttt{docker compose ps}: \texttt{fogon-db} tiene que decir \texttt{healthy}. Esperá unos segundos y recargá. \\
+Edité el archivo y no cambia nada & ¿Guardaste (\texttt{Ctrl+S})? ¿Estás editando el archivo de la carpeta \texttt{www} del laboratorio y no una copia? Probá \texttt{Ctrl+F5}. \\
+Pantalla en blanco o error de PHP & Leé el mensaje: tipo y línea (ver el nivel 5). Mirá también la línea de arriba. \\
+Quiero volver la base de datos a como estaba & \texttt{.\textbackslash scripts\textbackslash reiniciar-base.ps1}. \textbf{Borra} todo lo que guardaste y vuelve a cargar \texttt{init.sql}. \\
+Para ver qué dice el servidor & \texttt{docker compose logs web} (PHP y Apache) o \texttt{docker compose logs db} (MySQL). \\
+Docker no anda en mi PC & Plan B: \texttt{.\textbackslash scripts\textbackslash plan-b-sin-base.ps1} levanta solo PHP (niveles 0 a 3 y el museo). Si tampoco, trabajá en pareja con un compañero. \\
+Apagar todo al final & \texttt{.\textbackslash scripts\textbackslash apagar.ps1}. Los datos de MySQL se conservan para la próxima. \\
+\bottomrule
+\end{longtable}
+
+\begin{terminal}[PowerShell]{comandos útiles (dentro de la carpeta operacion-fogon)}
+docker compose ps              # qué contenedores están corriendo
+docker compose logs -f web     # ver los mensajes de PHP en vivo
+docker compose restart web     # reiniciar solo PHP
+docker compose down            # apagar (los datos quedan)
+docker compose down -v         # apagar y BORRAR la base
+\end{terminal}
+
+\vfill
+\begin{center}
+\begin{tikzpicture}
+  \fill[negro,rounded corners=3mm] (0,0) rectangle (\linewidth,2.6);
+  \fill[fuego,rounded corners=3mm] (0,0) rectangle (0.25,2.6);
+  \node[anchor=west,text=oroneon,font=\sffamily\bfseries\large] at (0.8,1.85) {¿Llegaste hasta acá?};
+  \node[anchor=west,text=texto,font=\sffamily\small,text width=14.5cm] at (0.8,0.95) {Hoy aprendiste lo mismo que usa el 70\,\% de la web. Mañana lo atacamos\ldots\ y lo blindamos. Traé tu proyecto.};
+\end{tikzpicture}
+\end{center}

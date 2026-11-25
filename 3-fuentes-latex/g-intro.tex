@@ -1,0 +1,182 @@
+% =====================================================================
+%  INTRODUCCIÓN · cómo usar la guía, la cocina de la web, el laboratorio
+% =====================================================================
+\clearpage
+\renewcommand{\seccionactual}{CÓMO USAR ESTA GUÍA}
+\section*{Cómo usar esta guía}
+\addcontentsline{toc}{section}{Cómo usar esta guía}
+
+Hoy vas a aprender \textbf{PHP desde cero}, aunque nunca hayas escrito una línea de código de servidor. La clase está
+armada como un juego: \textbf{7 niveles}, cada uno con su desafío y sus puntos de experiencia (XP).
+
+\subsection*{Cada nivel tiene siempre las mismas partes}
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\linewidth}{>{\leavevmode\sffamily\bfseries\color{fuegooscuro}}p{4.6cm} X}
+  La idea en simple & Una comparación con la vida real. Si solo leés una cosa, que sea esta. \\
+  Míralo funcionar & Abrís la página en el navegador y ves el resultado. \\
+  El código explicado & El archivo, \textbf{línea por línea}, en castellano. \\
+  Modificalo & Cambiás cosas pequeñas y ves qué pasa. Así se aprende de verdad. \\
+  El reto & Escribís algo vos. La solución está en la carpeta \texttt{soluciones}, pero \textbf{intentá antes}. \\
+  Errores típicos & Lo que le pasa a todo el mundo, y cómo arreglarlo. \\
+  Comprobá que entendiste & Preguntas cortas. Las respuestas están en el Apéndice C. \\
+\end{tabularx}
+
+\subsection*{El método: ver $\rightarrow$ modificar $\rightarrow$ crear}
+\begin{center}
+\begin{tikzpicture}[font=\sffamily\small]
+  \node[draw=cianjp,fill=cianjp!8,rounded corners=2mm,line width=1pt,minimum width=4.4cm,minimum height=1.5cm,align=center] (a) at (0,0) {\textbf{1 · VER}\\el ejemplo funcionando};
+  \node[draw=orojp,fill=orojp!10,rounded corners=2mm,line width=1pt,minimum width=4.4cm,minimum height=1.5cm,align=center] (b) at (5.4,0) {\textbf{2 · MODIFICAR}\\cambiar una línea y ver qué pasa};
+  \node[draw=rojojp,fill=rojojp!8,rounded corners=2mm,line width=1pt,minimum width=4.4cm,minimum height=1.5cm,align=center] (c) at (10.8,0) {\textbf{3 · CREAR}\\escribir algo propio};
+  \draw[-{Stealth},thick,grisjp] (a) -- (b); \draw[-{Stealth},thick,grisjp] (b) -- (c);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{Tu rango de cocinero}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabularx}{\linewidth}{l X >{\bfseries}l}
+\toprule
+\textbf{Nivel} & \textbf{Qué aprendés} & XP \\
+\midrule
+0 · El gancho & Por qué existe PHP y dónde se ejecuta & 50 \\
+1 · Hablar & \texttt{echo}, variables, comillas & 100 \\
+2 · Decidir y repetir & \texttt{if}, arrays, \texttt{foreach} & 150 \\
+3 · Escuchar & Formularios con \texttt{\$\_GET} y \texttt{\$\_POST} & 150 \\
+4 · Recordar & PHP + MySQL con PDO & 200 \\
+5 · El museo & Los 5 errores que todos cometen & 100 \\
+X · Jefe final & PHP en tu proyecto FORJA WEB & 250 \\
+\midrule
+ & \textbf{Total} & 1000 \\
+\bottomrule
+\end{tabularx}
+\vspace{1mm}
+
+\begin{center}
+\begin{tikzpicture}[font=\sffamily\small]
+  \foreach \i/\c/\t/\r in {0/grisjp/Ayudante de cocina/0--299,1/orojp/Cocinero/300--599,2/fuego/Chef/600--899,3/rojojp/Chef ejecutivo/900--1000}{
+    \node[draw=\c,fill=\c!10,rounded corners=2mm,line width=1pt,minimum width=3.7cm,minimum height=1.3cm,align=center] at ({\i*4.05},0) {\textbf{\t}\\\texttt{\r} XP};}
+\end{tikzpicture}
+\end{center}
+
+% =====================================================================
+\clearpage
+\renewcommand{\seccionactual}{LA COCINA DE LA WEB}
+\section*{La cocina de la web}
+\addcontentsline{toc}{section}{La cocina de la web}
+
+\subsection*{HTML muestra. PHP piensa.}
+Hasta ahora hiciste páginas con \textbf{HTML}: dicen \textbf{siempre lo mismo}. Si escribís «Son las 10:00», dice
+«Son las 10:00» aunque sean las tres de la tarde. HTML sabe \emph{mostrar}, pero no sabe \emph{pensar}.
+
+\textbf{PHP} es un lenguaje de programación que corre \textbf{en el servidor}. Antes de mandarte la página, PHP puede
+calcular la hora, decidir qué saludo poner, leer datos de una base de datos, recibir lo que escribiste en un
+formulario\ldots\ y recién entonces \textbf{arma el HTML} y te lo envía.
+
+\begin{analogia}
+Pensá en un restaurante. Vos (el \textbf{navegador}) le pedís un plato al \textbf{mozo} (\textbf{Apache}, el servidor web).
+Si pedís algo ya hecho, como una gaseosa (un archivo \texttt{.html}), el mozo te lo trae tal cual. Si pedís algo que hay
+que cocinar (un archivo \texttt{.php}), el mozo se lo pasa al \textbf{cocinero} (\textbf{PHP}), que busca ingredientes en la
+\textbf{despensa} (\textbf{MySQL}), cocina y le entrega el plato terminado al mozo. \textbf{Vos nunca entrás a la cocina}:
+solo ves el plato servido (el HTML).
+\end{analogia}
+
+\begin{center}
+\begin{tikzpicture}[font=\sffamily\small,
+  c/.style={draw=#1,fill=#1!8,rounded corners=2mm,line width=1pt,minimum width=3.1cm,minimum height=1.45cm,align=center}]
+  \node[c=grisjp] (n) at (0,0) {\textbf{Navegador}\\(el cliente)};
+  \node[c=cianjp] (a) at (4.4,0) {\textbf{Apache}\\(el mozo)};
+  \node[c=fuego] (p) at (8.8,0) {\textbf{PHP}\\(el cocinero)};
+  \node[c=lilaneon!80!black] (m) at (13.2,0) {\textbf{MySQL}\\(la despensa)};
+  \draw[-{Stealth},thick,grisjp] (n.north east) to[bend left=18] node[above,font=\scriptsize]{pide \texttt{hora.php}} (a.north west);
+  \draw[-{Stealth},thick,cianjp] (a.north east) to[bend left=18] node[above,font=\scriptsize]{«cociná esto»} (p.north west);
+  \draw[-{Stealth},thick,lilaneon!80!black] (p.north east) to[bend left=18] node[above,font=\scriptsize]{pide datos} (m.north west);
+  \draw[-{Stealth},thick,verdejp] (p.south west) to[bend left=18] node[below,font=\scriptsize]{HTML terminado} (a.south east);
+  \draw[-{Stealth},thick,verdejp] (a.south west) to[bend left=18] node[below,font=\scriptsize]{la página} (n.south east);
+\end{tikzpicture}
+\end{center}
+
+\subsection*{La idea más importante del día}
+\begin{marco}[fuego]{PHP se ejecuta en el SERVIDOR}
+El navegador \textbf{nunca} ve tu código PHP. Solo recibe el \textbf{resultado}: HTML. Por eso PHP puede guardar
+secretos (como la contraseña de la base de datos) que nadie desde afuera puede leer.
+\end{marco}
+
+\subsection*{¿Por qué PHP?}
+\begin{itemize}
+  \item Según W3Techs (agosto de 2026), PHP se usa en alrededor del \textbf{70\,\%} de los sitios web cuyo lenguaje de servidor se conoce: \textbf{7 de cada 10}.
+  \item \textbf{WordPress}, con el que se hacen muchísimos blogs, tiendas y sitios de empresas, está hecho en PHP.
+  \item Es de los más fáciles para empezar: hoy, en tres horas, vas a guardar datos en una base de datos.
+\end{itemize}
+
+% =====================================================================
+\clearpage
+\renewcommand{\seccionactual}{ENCENDER LA COCINA}
+\section*{Encender la cocina (tu laboratorio)}
+\addcontentsline{toc}{section}{Encender la cocina (tu laboratorio)}
+
+Todo corre en \textbf{Docker}, así que no tenés que instalar XAMPP ni configurar nada.
+El laboratorio tiene \textbf{tres contenedores}:
+
+\renewcommand{\arraystretch}{1.3}
+\begin{tabularx}{\linewidth}{>{\ttfamily\bfseries}l l X}
+\toprule
+\normalfont\bfseries Contenedor & \textbf{Qué es} & \textbf{Dónde lo ves} \\
+\midrule
+fogon-web & Apache + PHP 8.3 (mozo y cocinero) & \texttt{http://localhost:8090} \\
+fogon-db  & MySQL 8.4 (la despensa) & \texttt{127.0.0.1:3308} (Workbench) \\
+fogon-pma & phpMyAdmin (la ventana a la despensa) & \texttt{http://localhost:8091} \\
+\bottomrule
+\end{tabularx}
+
+\parte{Paso 1 · Requisitos}
+\begin{itemize}
+  \item \textbf{Docker Desktop} abierto (la ballena tiene que estar quieta, no animada).
+  \item \textbf{VS Code} (o cualquier editor de texto; el Bloc de notas también sirve).
+  \item La carpeta \texttt{operacion-fogon} que comparte el profe, copiada en tu Escritorio.
+\end{itemize}
+
+\parte{Paso 2 · Encender}
+Abrí la carpeta \texttt{operacion-fogon}, hacé \textbf{clic derecho en un espacio vacío $\rightarrow$ Abrir en Terminal} y escribí:
+\begin{terminal}[PowerShell]{la primera vez tarda unos minutos (descarga imágenes)}
+Set-ExecutionPolicy -Scope Process Bypass
+.\scripts\iniciar.ps1
+\end{terminal}
+El script levanta todo, espera a que MySQL esté listo y abre el navegador en \texttt{http://localhost:8090}.
+Tenés que ver el \textbf{mapa de la cocina} con el cocinero y la despensa \textbf{encendidos}.
+
+\captura[0.85\linewidth]{imagenes/index.png}
+
+\parte{Paso 3 · Abrir tus recetas en VS Code}
+En VS Code: \textbf{Archivo $\rightarrow$ Abrir carpeta} $\rightarrow$ elegí la carpeta \texttt{operacion-fogon}. Tus archivos
+están dentro de \texttt{www}:
+\begin{terminal}[estructura]{carpeta operacion-fogon}
+www/
+  00-gancho/       nivel 0: HTML vs PHP
+  01-hablar/       nivel 1: echo y variables
+  02-decidir/      nivel 2: if, arrays, foreach
+  03-escuchar/     nivel 3: formularios GET y POST
+  04-recordar/     nivel 4: PHP + MySQL
+  05-errores/      el museo de los 5 errores
+  06-reto-final/   jefe final: formulario de contacto
+  soluciones/      soluciones de los retos
+db/init.sql        la despensa: tablas y datos iniciales
+docker-compose.yml el plano de la cocina
+\end{terminal}
+
+\parte{Paso 4 · El ciclo que vas a repetir 100 veces}
+\begin{center}
+\begin{tikzpicture}[font=\sffamily\small,
+  c/.style={draw=#1,fill=#1!8,rounded corners=2mm,line width=1pt,minimum width=3.6cm,minimum height=1.3cm,align=center}]
+  \node[c=cianjp] (a) at (0,0) {\textbf{1 · Editás}\\en VS Code};
+  \node[c=orojp] (b) at (4.8,0) {\textbf{2 · Guardás}\\\texttt{Ctrl + S}};
+  \node[c=fuego] (c) at (9.6,0) {\textbf{3 · Recargás}\\\texttt{F5} en el navegador};
+  \draw[-{Stealth},thick,grisjp] (a) -- (b); \draw[-{Stealth},thick,grisjp] (b) -- (c);
+  \draw[-{Stealth},thick,verdejp] (c.south) to[bend left=22] node[below,font=\scriptsize]{y otra vez} (a.south);
+\end{tikzpicture}
+\end{center}
+No hace falta reiniciar nada: la carpeta \texttt{www} está «conectada» al contenedor. Guardás y el servidor ya tiene el cambio.
+
+\begin{ojo}[Si algo no anda]
+\textbf{El puerto está ocupado} (8090, 8091 o 3308): en \texttt{docker-compose.yml} cambiá el número de la \emph{izquierda}, por ejemplo \texttt{"8095:80"}.
+\textbf{«La despensa está cerrada»}: MySQL tarda unos segundos la primera vez; esperá y recargá.
+\textbf{Docker no funciona en tu PC}: usá el plan B, \texttt{.\textbackslash scripts\textbackslash plan-b-sin-base.ps1}, que levanta solo PHP y alcanza para los niveles 0 a 3 y el museo.
+\end{ojo}
