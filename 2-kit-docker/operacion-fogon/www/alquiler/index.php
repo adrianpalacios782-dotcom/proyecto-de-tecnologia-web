@@ -11,6 +11,7 @@ $autos = [
         'caracteristicas' => ['pasajeros' => 4, 'transmision' => 'Manual', 'ac' => 'Sí'],
         'etiqueta' => 'Mejor precio',
         'icono' => '🚗',
+        'imagen' => 'img/suzuki-swift.jpg',
     ],
     [
         'modelo' => 'Toyota Corolla',
@@ -19,6 +20,7 @@ $autos = [
         'caracteristicas' => ['pasajeros' => 5, 'transmision' => 'Automática', 'ac' => 'Sí'],
         'etiqueta' => 'Más popular',
         'icono' => '🚙',
+        'imagen' => 'img/toyota-corolla.jpg',
     ],
     [
         'modelo' => 'Toyota RAV4',
@@ -27,6 +29,7 @@ $autos = [
         'caracteristicas' => ['pasajeros' => 5, 'transmision' => 'Automática', 'ac' => 'Sí'],
         'etiqueta' => null,
         'icono' => '🚐',
+        'imagen' => 'img/toyota-rav4.jpg',
     ],
     [
         'modelo' => 'Toyota Hilux',
@@ -35,6 +38,7 @@ $autos = [
         'caracteristicas' => ['pasajeros' => 5, 'transmision' => 'Manual', 'ac' => 'Sí'],
         'etiqueta' => 'Para rutas largas',
         'icono' => '🛻',
+        'imagen' => 'img/toyota-hilux.jpg',
     ],
 ];
 ?>
@@ -96,7 +100,7 @@ $autos = [
         <?php foreach ($autos as $auto): ?>
           <article class="tarjeta-auto">
             <div class="auto-visual">
-              <span aria-hidden="true"><?= e($auto['icono']) ?></span>
+              <img class="auto-foto" src="<?= e($auto['imagen']) ?>" alt="<?= e($auto['modelo']) ?>" loading="lazy">
               <?php if (!empty($auto['etiqueta'])): ?>
                 <span class="etiqueta"><?= e($auto['etiqueta']) ?></span>
               <?php endif; ?>

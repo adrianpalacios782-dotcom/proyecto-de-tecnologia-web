@@ -304,7 +304,7 @@ La prueba con `<script>alert(1)</script>` devolvió `&lt;script&gt;alert(1)&lt;/
 
 ---
 
-## 5. GUÍA OPERATIVA Y COMANDOS DE EJECUCIÓN (POWERSHELL)
+## 5. GUÍA OPERATIVA Y COMANDOS DE EJECUCIÓN (CMD / POWERSHELL)
 
 Ubicarse en la carpeta del kit:
 
@@ -361,6 +361,22 @@ Inspeccionar la tabla:
 
 ```powershell
 docker compose exec -T db mysql -uroot -proot123 -e "SHOW COLUMNS FROM fogon.contactos;" fogon
+```
+
+Entrar a los contenedores de Docker desde CMD o PowerShell (modo interactivo):
+
+```powershell
+# Entrar a la terminal (bash) del contenedor web (Apache + PHP)
+docker compose exec web bash
+
+# Entrar a la consola interactiva de MySQL (base de datos fogon)
+docker compose exec db mysql -ufogon -pfogon123 fogon
+```
+
+Consultar las reservas guardadas directamente desde CMD o PowerShell:
+
+```powershell
+docker compose exec db mysql -ufogon -pfogon123 -e "SELECT * FROM contactos;" fogon
 ```
 
 URLs de acceso:
